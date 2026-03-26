@@ -46,6 +46,7 @@ export async function POST(req: NextRequest) {
       body: new URLSearchParams({
         target: phone,
         message,
+        url: "https://res.cloudinary.com/dzjydhoc7/image/upload/v1774542023/thumbnail_hun2qp.png",
         countryCode: "62",
       }),
     });
