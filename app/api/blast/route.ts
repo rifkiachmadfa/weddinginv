@@ -43,11 +43,11 @@ export async function POST(req: NextRequest) {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: new URLSearchParams({
-          target: phone,
-          message,
-          countryCode: "62",
-          url: "https://weddinginv-w7x9.vercel.app/thumbnail.png", // ← tambah ini
-        }),
+            target: phone,
+            message,
+            countryCode: "62",
+            image: "https://weddinginv-w7x9.vercel.app/thumbnail.png", // ← ganti url jadi image
+          }),
       });
 
     const data = await res.json();
