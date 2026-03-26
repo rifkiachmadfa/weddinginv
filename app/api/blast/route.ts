@@ -27,7 +27,8 @@ export async function POST(req: NextRequest) {
       `_Kami percaya bahwa setiap pertemuan adalah takdir, dan setiap pasangan adalah amanah. Dengan ridha-Nya, kami memulai perjalanan ini, dalam ikatan suci yang penuh keberkahan.🕊️_\n\n` +
       `Dengan memohon rahmat dan ridho Allah Subhanahuwata'ala, kami bermaksud mengundang *${guest.name}* untuk menghadiri acara pernikahan kami.\n\n` +
       `*Berikut link undangan digital untuk ${guest.name}:*\n` +
-      `${invitationUrl}\n\n` +
+      `${invitationUrl}\n` +
+      `_Catatan: Undangan Terbatas_\n\n`+
       `Merupakan suatu kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.\n\n` +
       `*Wassalamu'alaikum Wr. Wb.*\n` +
       `Rifki & Ayu 💍`;
