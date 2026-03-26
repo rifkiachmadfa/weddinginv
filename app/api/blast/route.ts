@@ -36,18 +36,19 @@ export async function POST(req: NextRequest) {
       .replace(/\D/g, "")
       .replace(/^0/, "62");
 
-    const res = await fetch("https://api.fonnte.com/send", {
-      method: "POST",
-      headers: {
-        "Authorization": process.env.FONNTE_TOKEN!,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        target: phone,
-        message,
-        countryCode: "62",
-      }),
-    });
+      const res = await fetch("https://api.fonnte.com/send", {
+        method: "POST",
+        headers: {
+          "Authorization": process.env.FONNTE_TOKEN!,
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          target: phone,
+          message,
+          countryCode: "62",
+          url: "https://weddinginv-w7x9.vercel.app/thumbnail.png", // ← tambah ini
+        }),
+      });
 
     const data = await res.json();
 
