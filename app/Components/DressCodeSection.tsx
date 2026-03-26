@@ -1,6 +1,6 @@
 "use client";
 
-import { useScrollReveal } from "../hooks/useScrollReveal";
+import { useScrollReveal } from "../hooks/useScrollReveal.ts";
 
 interface Props {
   data: {
@@ -15,115 +15,161 @@ interface Props {
 }
 
 const COLOR_SWATCHES = [
-  { name: "Sage Green", hex: "#b2bfa8" },
-  { name: "Dusty Rose", hex: "#d4a5a5" },
-  { name: "Soft Beige", hex: "#e8d5b7" },
-  { name: "Warm Taupe", hex: "#c4a882" },
-  { name: "Muted Lavender", hex: "#b8afc8" },
+  { name: "Slate Grey", hex: "#8a9199" },
+  { name: "Warm Ivory", hex: "#f5f0e8" },
+  { name: "Soft Beige", hex: "#e0d5c5" },
+  { name: "Ash", hex: "#b0b8bf" },
+  { name: "Cream", hex: "#ede8de" },
 ];
 
 export default function DressCodeSection({ data }: Props) {
   const { ref, inView } = useScrollReveal();
 
   return (
-    <section className="py-20 px-6 bg-[#f4f1de] relative overflow-hidden">
-      <div
-        ref={ref}
-        className={`max-w-3xl mx-auto transition-all duration-1000 ${
-          inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        }`}
-      >
-        <div className="text-center mb-12">
-          <p className="text-[#3d405b] text-xs tracking-[0.4em] uppercase opacity-60 mb-3">
+    <>
+      <style>{`
+        /* Stagger reveal for dresscode */
+        .dc-stagger {
+          opacity: 0;
+          transform: translateY(20px);
+          transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .dc-in .dc-stagger-1 { transition-delay: 0.05s; opacity: 1; transform: translateY(0); }
+        .dc-in .dc-stagger-2 { transition-delay: 0.18s; opacity: 1; transform: translateY(0); }
+        .dc-in .dc-stagger-3 { transition-delay: 0.30s; opacity: 1; transform: translateY(0); }
+        .dc-in .dc-stagger-4 { transition-delay: 0.44s; opacity: 1; transform: translateY(0); }
+        .dc-in .dc-stagger-5 { transition-delay: 0.58s; opacity: 1; transform: translateY(0); }
+        .dc-in .dc-stagger-6 { transition-delay: 0.72s; opacity: 1; transform: translateY(0); }
+
+        /* Divider grow — same as HeroSection */
+        @keyframes dc-lineGrow {
+          from { transform: scaleX(0); }
+          to   { transform: scaleX(1); }
+        }
+        .dc-in .dc-divider {
+          animation: dc-lineGrow 1s ease forwards;
+          animation-delay: 0.4s;
+        }
+        .dc-divider {
+          transform: scaleX(0);
+          transform-origin: center;
+        }
+
+        /* Swatch hover lift */
+        .dc-swatch-item {
+          transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .dc-swatch-item:hover {
+          transform: translateY(-4px);
+        }
+
+        /* Subtle pulse for avoid badge */
+        .dc-avoid-badge {
+          border: 1px solid rgba(61,64,91,0.25);
+          color: rgba(61,64,91,0.65);
+          font-size: 10px;
+          letter-spacing: 0.3em;
+          text-transform: uppercase;
+          padding: 4px 14px;
+          border-radius: 9999px;
+          background: transparent;
+          transition: border-color 0.3s, color 0.3s;
+        }
+        .dc-avoid-badge:hover {
+          border-color: rgba(61,64,91,0.55);
+          color: rgba(61,64,91,0.9);
+        }
+
+        /* Gender card */
+        .dc-gender-card {
+          border: 1px solid rgba(61,64,91,0.12);
+          border-radius: 2px;
+          background: rgba(61,64,91,0.03);
+          transition: background 0.3s, border-color 0.3s;
+        }
+        .dc-gender-card:hover {
+          background: rgba(61,64,91,0.06);
+          border-color: rgba(61,64,91,0.22);
+        }
+      `}</style>
+
+      <section className="relative py-28 px-6 overflow-hidden bg-[#f4f1de]">
+
+        {/* Top & bottom hairline dividers — same as HeroSection rhythm */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-px bg-[#3d405b] opacity-20" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-px bg-[#3d405b] opacity-20" />
+
+        {/* Decorative corner diamond — echoes HeroSection's subtle ornaments */}
+        <svg
+          className="absolute top-10 left-10 opacity-[0.07] pointer-events-none"
+          width="80" height="80" viewBox="0 0 80 80" fill="none"
+        >
+          <rect x="40" y="2" width="54" height="54" rx="1" transform="rotate(45 40 40)" stroke="#3d405b" strokeWidth="1"/>
+          <rect x="40" y="12" width="38" height="38" rx="1" transform="rotate(45 40 40)" stroke="#3d405b" strokeWidth="0.5"/>
+        </svg>
+        <svg
+          className="absolute bottom-10 right-10 opacity-[0.07] pointer-events-none"
+          width="60" height="60" viewBox="0 0 60 60" fill="none"
+        >
+          <rect x="30" y="2" width="40" height="40" rx="1" transform="rotate(45 30 30)" stroke="#3d405b" strokeWidth="1"/>
+        </svg>
+
+        {/* Main content */}
+        <div
+          ref={ref}
+          className={`dc-in-trigger relative z-10 max-w-2xl mx-auto text-center ${inView ? "dc-in" : ""}`}
+        >
+
+          {/* Label — same micro-typography as HeroSection */}
+          <p className="dc-stagger dc-stagger-1 text-[#3d405b] text-[10px] tracking-[0.5em] uppercase mb-4 opacity-60">
             Dress Code
           </p>
-          <h2 className="font-bright-dusty text-4xl md:text-5xl text-[#3d405b] mb-2">
+
+          {/* Theme title — font-bright-dusty, same scale as HeroSection names */}
+          <h2 className="dc-stagger dc-stagger-2 font-bright-dusty text-6xl md:text-7xl text-[#3d405b] leading-none mb-6">
             {data.dressCode.theme}
           </h2>
-          <div className="flex items-center justify-center gap-3 mt-4 mb-6">
-            <div className="h-px w-16 bg-[#f2cc8f]" />
-            <div className="w-1.5 h-1.5 rounded-full bg-[#f2cc8f]" />
-            <div className="h-px w-16 bg-[#f2cc8f]" />
-          </div>
-          <p className="text-[#3d405b] opacity-70 text-sm max-w-md mx-auto leading-relaxed">
+
+          {/* Divider — identical to HeroSection */}
+          <div className="dc-divider dc-stagger dc-stagger-3 w-16 h-px bg-[#3d405b] opacity-30 mx-auto mb-6" />
+
+          {/* Description */}
+          <p className="dc-stagger dc-stagger-3 text-[#3d405b] opacity-60 text-sm leading-relaxed max-w-md mx-auto mb-14">
             {data.dressCode.description}
           </p>
-        </div>
 
-        {/* Color swatches */}
-        <div className="flex justify-center gap-3 mb-12 flex-wrap">
-          {COLOR_SWATCHES.map((color) => (
-            <div key={color.name} className="flex flex-col items-center gap-2 group">
-              <div
-                className="w-10 h-10 rounded-full border-2 border-white shadow-md group-hover:scale-110 transition-transform duration-300"
-                style={{ backgroundColor: color.hex }}
-              />
-              <p className="text-[#3d405b] text-xs opacity-60 w-16 text-center leading-tight">
-                {color.name}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        {/* Male & Female */}
-        <div className="grid md:grid-cols-2 gap-6 mb-10">
-          <DressCard
-            gender="Pria"
-            icon={
-              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-            }
-            description={data.dressCode.male}
-          />
-          <DressCard
-            gender="Wanita"
-            icon={
-              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 2C10.343 2 9 3.343 9 5s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm0 8c-2.21 0-4 1.79-4 4v2h2l1 6h2l1-6h2v-2c0-2.21-1.79-4-4-4z" />
-              </svg>
-            }
-            description={data.dressCode.female}
-          />
-        </div>
-
-        {/* Avoid colors */}
-        <div className="text-center p-5 border border-dashed border-[#3d405b] border-opacity-20">
-          <p className="text-[#3d405b] text-xs tracking-widest uppercase opacity-60 mb-2">
-            Mohon Hindari Warna
-          </p>
-          <div className="flex justify-center gap-3 flex-wrap">
-            {data.dressCode.avoidColors.map((c) => (
-              <span
-                key={c}
-                className="px-3 py-1 bg-[#3d405b] bg-opacity-10 text-[#3d405b] text-xs rounded-sm opacity-70"
-              >
-                {c}
-              </span>
+          {/* Color swatches */}
+          <div className="dc-stagger dc-stagger-4 flex justify-center gap-6 mb-10 flex-wrap">
+            {COLOR_SWATCHES.map((color) => (
+              <div key={color.name} className="dc-swatch-item flex flex-col items-center gap-2.5">
+                <div
+                  className="w-9 h-9 rounded-full shadow-sm"
+                  style={{ backgroundColor: color.hex, border: "1px solid rgba(61,64,91,0.1)" }}
+                />
+                <p className="text-[#3d405b] opacity-50 text-[9px] tracking-[0.2em] uppercase w-14 text-center leading-tight">
+                  {color.name}
+                </p>
+              </div>
             ))}
           </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
-function DressCard({
-  gender,
-  icon,
-  description,
-}: {
-  gender: string;
-  icon: React.ReactNode;
-  description: string;
-}) {
-  return (
-    <div className="text-center p-6 bg-white bg-opacity-50 border border-[#3d405b] border-opacity-10 hover:border-opacity-20 transition-all duration-300">
-      <div className="flex justify-center text-[#3d405b] opacity-60 mb-3">{icon}</div>
-      <h4 className="font-medium text-[#3d405b] mb-2 text-sm tracking-widest uppercase opacity-70">
-        {gender}
-      </h4>
-      <p className="text-[#3d405b] text-sm opacity-60 leading-relaxed">{description}</p>
-    </div>
+          {/* Divider */}
+          <div className="dc-divider dc-stagger dc-stagger-4 w-16 h-px bg-[#3d405b] opacity-30 mx-auto mb-10" />
+
+          {/* Avoid colors */}
+          <div className="dc-stagger dc-stagger-5 mb-14">
+            <p className="text-[#3d405b] text-[10px] tracking-[0.5em] uppercase mb-5 opacity-60">
+              Mohon Hindari Warna
+            </p>
+            <div className="flex justify-center gap-2 flex-wrap">
+              {data.dressCode.avoidColors.map((c) => (
+                <span key={c} className="dc-avoid-badge">{c}</span>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </>
   );
 }

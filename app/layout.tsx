@@ -3,19 +3,25 @@ import "./globals.css";
 import localFont from "next/font/local";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
-
+import { Amiri } from "next/font/google";
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const brightDusty = localFont({
   src: "../font/Bright-Dusty.otf",
 });
 
+const amiri = Amiri({
+  subsets: ["arabic"],
+  weight: ["400", "700"],
+  variable: "--font-amiri",
+});
+
 export const metadata: Metadata = {
-  title: "Undangan Pernikahan Rizky & Anisa",
+  title: "Undangan Pernikahan Ayu & Rifki",
   description: "Kami dengan penuh kebahagiaan mengundang Anda untuk menyaksikan momen sakral pernikahan kami.",
   openGraph: {
-    title: "Undangan Pernikahan Rizky & Anisa",
-    description: "Sabtu, 14 Juni 2025 — Bandung, Jawa Barat",
+    title: "Undangan Pernikahan Ayu & Rifki",
+    description: "Sabtu, 4 April 2026 — Sumedang, Jawa Barat",
     images: [
       {
         url: "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&h=630&fit=crop",
@@ -37,7 +43,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className={brightDusty.className}>{children}</body>
+      <body className={`${brightDusty.className} ${amiri.variable}`}>{children}</body>
     </html>
   );
 }

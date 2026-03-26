@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useScrollReveal } from "../hooks/useScrollReveal";
+import { useScrollReveal } from "../hooks/useScrollReveal.ts";
 
 interface Props {
   data: { rsvpWhatsApp: string };

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useScrollReveal } from "../hooks/useScrollReveal";
+import { useScrollReveal } from "../hooks/useScrollReveal.ts";
 
 interface Props {
   targetDate: string;
@@ -44,10 +44,10 @@ export default function CountdownSection({ targetDate }: Props) {
   ];
 
   return (
-    <section className="py-16 bg-[#3d405b] relative overflow-hidden">
+    <section className="py-16 bg-[#f4f1de] relative overflow-hidden">
       {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#f2cc8f] to-transparent opacity-30" />
-      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#f2cc8f] to-transparent opacity-30" />
+      <div className="absolute top-0 left-0 w-full h-px bg-linear-r from-transparent via-[#f2cc8f] to-transparent opacity-30" />
+      <div className="absolute bottom-0 left-0 w-full h-px bg-linear-to-r from-transparent via-[#f2cc8f] to-transparent opacity-30" />
 
       <div
         ref={ref}
@@ -55,7 +55,7 @@ export default function CountdownSection({ targetDate }: Props) {
           inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         }`}
       >
-        <p className="text-[#f2cc8f] text-xs tracking-[0.4em] uppercase mb-8 opacity-80">
+        <p className="text-[#3d405b] text-xs tracking-[0.4em] uppercase mb-8 opacity-80">
           Menuju Hari Bahagia
         </p>
 
@@ -63,18 +63,18 @@ export default function CountdownSection({ targetDate }: Props) {
           {units.map(({ label, value }, i) => (
             <div key={label} className="relative">
               <div
-                className="bg-[#f4f1de] bg-opacity-10 border border-[#f2cc8f] border-opacity-30 rounded-sm py-4 px-2"
+                className="py-4 px-2"
                 style={{ animationDelay: `${i * 100}ms` }}
               >
-                <span className="block font-bright-dusty text-4xl md:text-5xl text-[#f2cc8f] leading-none tabular-nums">
+                <span className="block font-bright-dusty text-4xl md:text-5xl text-[#3d405b] leading-none tabular-nums">
                   {String(value).padStart(2, "0")}
                 </span>
               </div>
-              <p className="text-[#f4f1de] text-xs tracking-widest uppercase mt-2 opacity-60">
+              <p className="text-[#3d405b] text-xs tracking-widest uppercase mt-2 opacity-60">
                 {label}
               </p>
               {i < 3 && (
-                <span className="absolute top-4 -right-2 text-[#f2cc8f] opacity-40 font-light text-xl">
+                <span className="absolute top-4 -right-2 text-[#3d405b] opacity-40 font-light text-xl">
                   :
                 </span>
               )}

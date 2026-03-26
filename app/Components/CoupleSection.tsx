@@ -1,126 +1,213 @@
 "use client";
 
-import { useScrollReveal } from "../hooks/useScrollReveal";
+import { useRef } from "react";
+import { motion, useInView, type Variants } from "framer-motion";
+import Image from "next/image";
 
-interface Props {
-  data: {
-    groom: { name: string; fullName: string; photo: string; father: string; mother: string; instagram: string };
-    bride: { name: string; fullName: string; photo: string; father: string; mother: string; instagram: string };
-    coupleImage: string;
+interface CoupleData {
+  groom: {
+    fullName: string;
+    father: string;
+    mother: string;
+  };
+  bride: {
+    fullName: string;
+    father: string;
+    mother: string;
   };
 }
 
-export default function CoupleSection({ data }: Props) {
-  const { ref, inView } = useScrollReveal();
-
-  return (
-    <section className="py-20 px-6 bg-[#f4f1de] relative overflow-hidden">
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <PatternBg />
-      </div>
-
-      <div
-        ref={ref}
-        className={`max-w-4xl mx-auto transition-all duration-1000 ${
-          inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        }`}
-      >
-        {/* Section title */}
-        <div className="text-center mb-16">
-          <p className="text-[#3d405b] text-xs tracking-[0.4em] uppercase opacity-60 mb-3">
-            Bismillahirrahmanirrahim
-          </p>
-          <h2 className="font-bright-dusty text-4xl md:text-5xl text-[#3d405b] mb-4">
-            Bersatu dalam Ikatan Suci
-          </h2>
-          <div className="flex items-center justify-center gap-3">
-            <div className="h-px w-16 bg-[#f2cc8f]" />
-            <div className="w-1.5 h-1.5 rounded-full bg-[#f2cc8f]" />
-            <div className="h-px w-16 bg-[#f2cc8f]" />
-          </div>
-        </div>
-
-        {/* Couple photo */}
-        <div className="flex justify-center mb-16">
-          <div className="relative">
-            <div className="w-64 h-80 md:w-80 md:h-96 overflow-hidden rounded-sm border-4 border-[#f4f1de] shadow-2xl">
-              <img
-                src={data.coupleImage}
-                alt="Couple"
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-              />
-            </div>
-            {/* Gold frame decoration */}
-            <div className="absolute -top-3 -left-3 w-full h-full border border-[#f2cc8f] rounded-sm opacity-60" />
-            <div className="absolute -bottom-3 -right-3 w-full h-full border border-[#f2cc8f] rounded-sm opacity-30" />
-          </div>
-        </div>
-
-        {/* Groom & Bride */}
-        <div className="grid md:grid-cols-3 gap-8 items-center">
-          {/* Groom */}
-          <PersonCard person={data.groom} side="right" />
-
-          {/* Ampersand */}
-          <div className="text-center">
-            <p className="font-bright-dusty text-8xl text-[#f2cc8f] leading-none">&</p>
-          </div>
-
-          {/* Bride */}
-          <PersonCard person={data.bride} side="left" />
-        </div>
-      </div>
-    </section>
-  );
+interface Props {
+  data: CoupleData;
 }
 
-function PersonCard({
-  person,
-  side,
+const containerVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12 } },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
+};
+
+const DiagonalPhoto = ({
+  src,
+  alt,
+  direction,
 }: {
-  person: { name: string; fullName: string; photo: string; father: string; mother: string; instagram: string };
-  side: "left" | "right";
-}) {
-  return (
-    <div className={`text-center ${side === "right" ? "md:text-right" : "md:text-left"}`}>
-      <div className="flex justify-center mb-4">
-        <div className="w-28 h-28 rounded-full overflow-hidden border-2 border-[#f2cc8f] shadow-lg">
-          <img src={person.photo} alt={person.name} className="w-full h-full object-cover" />
-        </div>
-      </div>
-      <h3 className="font-bright-dusty text-3xl text-[#3d405b] mb-1">{person.name}</h3>
-      <p className="text-[#3d405b] text-xs opacity-60 mb-3 tracking-wide">{person.fullName}</p>
-      <div className="space-y-1">
-        <p className="text-[#3d405b] text-sm opacity-70">Putra/Putri dari</p>
-        <p className="text-[#3d405b] text-sm font-medium">{person.father}</p>
-        <p className="text-[#3d405b] text-sm font-medium">{person.mother}</p>
-      </div>
-      <p className="text-[#f2cc8f] text-xs mt-3 opacity-80">{person.instagram}</p>
-    </div>
-  );
-}
+  src: string;
+  alt: string;
+  direction: "left" | "right";
+}) => {
+  const clipLeft = "polygon(0 0, 90% 0, 100% 100%, 0% 100%)";
+  const clipRight = "polygon(10% 0, 100% 0, 100% 100%, 0% 100%)";
 
-function PatternBg() {
   return (
-    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="floral" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
-          <circle cx="30" cy="30" r="1" fill="#3d405b" />
-          {[0, 60, 120, 180, 240, 300].map((deg, i) => (
-            <ellipse
-              key={i}
-              cx="30"
-              cy="30"
-              rx="1"
-              ry="5"
-              fill="#3d405b"
-              transform={`rotate(${deg} 30 30) translate(0, -7)`}
-            />
-          ))}
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#floral)" />
-    </svg>
+    <motion.div
+      className="relative w-full overflow-hidden flex justify-center"
+      style={{ clipPath: direction === "left" ? clipLeft : clipRight }}
+      initial={{ opacity: 0, x: direction === "left" ? -60 : 60 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.9, ease: "easeOut" }}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        width={600}
+        height={800}
+        className="w-auto h-auto max-h-[380px] md:max-h-[460px] object-contain"
+        style={{ display: "block" }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            direction === "left"
+              ? "linear-gradient(to right, rgba(61,64,91,0.1), rgba(61,64,91,0.5))"
+              : "linear-gradient(to left, rgba(61,64,91,0.1), rgba(61,64,91,0.5))",
+        }}
+      />
+    </motion.div>
+  );
+};
+
+const PersonCard = ({
+  fullName,
+  father,
+  mother,
+  title,
+  direction,
+}: {
+  fullName: string;
+  father: string;
+  mother: string;
+  title: string;
+  direction: "left" | "right";
+}) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
+
+  return (
+    <motion.div
+      ref={ref}
+      className={`flex flex-col justify-center gap-5 px-8 md:px-12 py-10 ${
+        direction === "left" ? "items-start text-left" : "items-end text-right"
+      }`}
+      variants={containerVariants}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+    >
+      <motion.p
+        variants={itemVariants}
+        className="text-[#f4f1de]/40 text-[10px] tracking-[0.5em] uppercase"
+      >
+        {title}
+      </motion.p>
+
+      <motion.div
+        variants={itemVariants}
+        className={`h-px w-12 bg-[#f4f1de]/20 ${direction === "right" ? "self-end" : ""}`}
+      />
+
+      <motion.h2
+        variants={itemVariants}
+        className="font-bright-dusty text-4xl md:text-5xl lg:text-6xl text-[#f4f1de] leading-tight"
+      >
+        {fullName}
+      </motion.h2>
+
+      <motion.div variants={itemVariants} className="space-y-1">
+        <p className="text-[#f4f1de]/50 text-[10px] tracking-[0.4em] uppercase mb-2">
+          Putra/Putri dari
+        </p>
+        <p className="text-[#f4f1de]/80 text-sm font-light">{father}</p>
+        <p className="text-[#f4f1de]/80 text-sm font-light">{mother}</p>
+      </motion.div>
+
+      <motion.div
+        variants={itemVariants}
+        className={`h-px w-12 bg-[#f4f1de]/20 ${direction === "right" ? "self-end" : ""}`}
+      />
+    </motion.div>
+  );
+};
+
+export default function CoupleSection({ data }: Props) {
+  return (
+    <section className="bg-[#3d405b] overflow-hidden">
+
+      <motion.div
+        className="w-full h-px bg-[#f4f1de]/10"
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+        style={{ transformOrigin: "left" }}
+      />
+
+      <motion.div
+        className="text-center py-16"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
+        <p className="text-[#f4f1de]/30 text-[10px] tracking-[0.6em] uppercase mb-3">
+          Yang Berbahagia
+        </p>
+        <h2 className="font-bright-dusty text-5xl md:text-6xl text-[#f4f1de]">
+          The Couple
+        </h2>
+        <div className="flex items-center gap-3 justify-center mt-6">
+          <div className="h-px w-12 bg-[#f4f1de]/15" />
+          <div className="w-1 h-1 rounded-full bg-[#f4f1de]/30" />
+          <div className="h-px w-24 bg-[#f4f1de]/15" />
+          <div className="w-1 h-1 rounded-full bg-[#f4f1de]/30" />
+          <div className="h-px w-12 bg-[#f4f1de]/15" />
+        </div>
+      </motion.div>
+
+      {/* Bride — foto kiri, text kanan */}
+      <div className="grid grid-cols-1 md:grid-cols-2 mb-2 items-center">
+        <DiagonalPhoto src="/wanita.png" alt="Bride" direction="left" />
+        <PersonCard
+          fullName={data.bride.fullName}
+          father={data.bride.father}
+          mother={data.bride.mother}
+          title="The Bride"
+          direction="left"
+        />
+      </div>
+
+      {/* Ampersand divider */}
+      <motion.div
+        className="text-center py-10"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, amount: 0 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+      >
+        <div className="flex items-center gap-3 justify-center">
+          <div className="h-px w-12 bg-[#f4f1de]/15" />
+          <p className="font-bright-dusty text-3xl text-[#f4f1de]/30">&amp;</p>
+          <div className="h-px w-12 bg-[#f4f1de]/15" />
+        </div>
+      </motion.div>
+
+      {/* Groom — text kiri, foto kanan */}
+      <div className="grid grid-cols-1 md:grid-cols-2 mt-2 items-center">
+        <PersonCard
+          fullName={data.groom.fullName}
+          father={data.groom.father}
+          mother={data.groom.mother}
+          title="The Groom"
+          direction="right"
+        />
+        <DiagonalPhoto src="/pria.png" alt="Groom" direction="right" />
+      </div>
+
+    </section>
   );
 }

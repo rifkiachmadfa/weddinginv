@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { StaticImageData } from "next/image";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
+
 
 interface Props {
   guestName: string;
@@ -49,7 +49,7 @@ export default function HeroSection({ guestName, data }: Props) {
       const topImg = topImageRef.current;
       const bottomImg = bottomImageRef.current;
       if (topImg) topImg.style.transform = `rotate(-90deg) translateY(${scrollY * 0.15}px)`;
-      if (bottomImg) bottomImg.style.transform = `rotate(85deg) translateY(${-scrollY * 0.15}px)`;
+      if (bottomImg) bottomImg.style.transform = `rotate(-85deg) translateY(${-scrollY * 0.15}px)`;
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -132,14 +132,7 @@ export default function HeroSection({ guestName, data }: Props) {
           transform-origin: center;
         }
 
-        /* Scroll button pulse */
-        @keyframes pulseSoft {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(61, 64, 91, 0.15); }
-          50% { box-shadow: 0 0 0 10px rgba(61, 64, 91, 0); }
-        }
-        .scroll-btn {
-          animation: pulseSoft 2.5s ease-in-out infinite;
-        }
+
       `}</style>
 
       <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#f4f1de]">
@@ -147,7 +140,7 @@ export default function HeroSection({ guestName, data }: Props) {
         {/* Top decorative image */}
         <div
           ref={topImageRef}
-          className="hero-image-wrap absolute -top-10 left-4 md:left-40 w-40 md:w-64 lg:w-80 rotate-[-90deg]"
+          className="hero-image-wrap absolute -top-10 md:left-40 sm:right-25 w-40 md:w-64 lg:w-80 -rotate-90"
         >
           <div className="inner-float-top">
             <Image
@@ -163,7 +156,7 @@ export default function HeroSection({ guestName, data }: Props) {
         {/* Bottom decorative image */}
         <div
           ref={bottomImageRef}
-          className="hero-image-wrap absolute -bottom-10 right-4 md:right-40 w-40 md:w-64 lg:w-80 rotate-[85deg]"
+          className="hero-image-wrap absolute -bottom-10 md:right-40 sm:right-25 w-40 md:w-64 lg:w-80 -rotate-275"
         >
           <div className="inner-float-bottom">
             <Image
@@ -221,12 +214,14 @@ export default function HeroSection({ guestName, data }: Props) {
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
           <Button
             variant="outline"
-            size="sm"
+            size="lg"
             onClick={handleScrollDown}
-            className="scroll-btn border-[#3d405b]/30 text-[#3d405b]/60 hover:text-[#3d405b] hover:border-[#3d405b]/60 hover:bg-[#3d405b]/5 bg-transparent rounded-full px-5 text-[10px] tracking-[0.35em] uppercase gap-2 transition-all duration-300"
+            className="border-[#3d405b]/40 text-[#3d405b]/70 hover:text-[#3d405b] hover:border-[#3d405b] hover:bg-[#3d405b]/5 bg-transparent rounded-full px-8 py-6 text-sm tracking-[0.3em] uppercase gap-3 transition-all duration-300"
           >
-            Scroll
-            <ChevronDown className="w-3 h-3" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+            </svg>
+            Buka Undangan
           </Button>
         </div>
       </section>

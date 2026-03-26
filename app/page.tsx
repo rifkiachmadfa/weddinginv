@@ -1,57 +1,42 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useState } from "react";
 import { weddingData } from "../config/weddingData";
 import HeroSection from "./Components/HeroSection";
-// import CoupleSection from "./components/CoupleSection";
-// import EventSection from "./components/EventSection";
-// import MapSection from "./components/MapSection";
-// import DressCodeSection from "./components/DressCodeSection";
-// import GiftSection from "./components/GiftSection";
-// import ClosingSection from "./components/ClosingSection";
+import CoupleSection from "./Components/CoupleSection";
+import EventSection from "./Components/EventSection";
+import DressCodeSection from "./Components/DressCodeSection";
+import GiftSection from "./Components/GiftSection";
+import ClosingSection from "./Components/ClosingSection";
 // import RSVPSection from "./Components/Rsvpsection";
-// import CountdownSection from "./components/CountdownSection";
-// import EnvelopeOpener from "./components/EnvelopeOpener";
+import CountdownSection from "./Components/CountDownSection";
+import EnvelopeOpener from "./Components/EnvelopeOpener";
 // import FloralDivider from "./components/FloralDivider";
+import QuotesSection from "./Components/QuotesSection";
+import WishesSection from "./Components/WishesSection";
 
 function InvitationContent() {
   const searchParams = useSearchParams();
   const guestName = searchParams.get("to") || "Tamu Undangan";
-  // const [opened, setOpened] = useState(false);
 
-  // useEffect(() => {
-  //   if (opened) {
-  //     document.body.style.overflow = "auto";
-  //   } else {
-  //     document.body.style.overflow = "hidden";
-  //   }
-  //   return () => {
-  //     document.body.style.overflow = "auto";
-  //   };
-  // }, [opened]);
+  const [opened, setOpened] = useState(false);
 
+  
   return (
     <main className="min-h-screen bg-[#f4f1de] overflow-x-hidden">
-      {/* {!opened && <EnvelopeOpener guestName={guestName} onOpen={() => setOpened(true)} />} */}
 
-      <div
-        // className={`transition-all duration-1000 ${opened ? "opacity-100" : "opacity-0 pointer-events-none"}`}
-      >
+        {!opened && <EnvelopeOpener guestName={guestName} onOpen={() => setOpened(true)} />}
+        
         <HeroSection guestName={guestName} data={weddingData} />
-        {/* <FloralDivider />
+        <QuotesSection/>
         <CoupleSection data={weddingData} />
-        <FloralDivider flip />
         <CountdownSection targetDate={weddingData.weddingDate} />
         <EventSection data={weddingData} />
-        <MapSection data={weddingData} />
-        <FloralDivider />
         <DressCodeSection data={weddingData} />
-        <FloralDivider flip />
         <GiftSection data={weddingData} />
-        <RSVPSection data={weddingData} guestName={guestName} />
-        <ClosingSection data={weddingData} /> */}
-      </div>
+        <WishesSection data={weddingData} guestName={guestName} />
+        <ClosingSection data={weddingData} />
     </main>
   );
 }
