@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { StaticImageData } from "next/image";
 import HeroSection from "@/app/Components/HeroSection";
 import CoupleSection from "@/app/Components/CoupleSection";
@@ -12,6 +12,7 @@ import CountdownSection from "@/app/Components/CountDownSection";
 import EnvelopeOpener from "@/app/Components/EnvelopeOpener";
 import QuotesSection from "@/app/Components/QuotesSection";
 import WishesSection from "@/app/Components/WishesSection";
+import { Volume2, VolumeX } from "lucide-react";
 
 interface WeddingData {
     heroImage: string | StaticImageData;
@@ -80,12 +81,47 @@ interface Props {
 
 export default function InvitationPageClient({ guestName, data }: Props) {
   const [opened, setOpened] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  // Mulai musik saat envelope dibuka
+  useEffect(() => {
+    if (opened && audioRef.current) {
+      audioRef.current.volume = 0.5;
+      audioRef.current.play().catch(() => {});
+    }
+  }, [opened]);
+
+  const toggleMute = () => {
+    if (audioRef.current) {
+      audioRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+    }
+  };
 
   return (
     <main className="min-h-screen bg-[#f4f1de] overflow-x-hidden">
+      {/* Audio */}
+      <audio ref={audioRef} src="/music.mp3" loop />
+
       {!opened && (
         <EnvelopeOpener guestName={guestName} onOpen={() => setOpened(true)} />
       )}
+
+      {/* Floating Mute/Unmute Button */}
+      {opened && (
+        <button
+          onClick={toggleMute}
+          className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-white/80 backdrop-blur shadow-lg border border-rose-100 flex items-center justify-center hover:bg-rose-50 transition-all"
+        >
+          {isMuted ? (
+            <VolumeX className="w-5 h-5 text-rose-400" />
+          ) : (
+            <Volume2 className="w-5 h-5 text-rose-400" />
+          )}
+        </button>
+      )}
+
       <HeroSection guestName={guestName} data={data} />
       <QuotesSection />
       <CoupleSection data={data} />
