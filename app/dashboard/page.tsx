@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { UserPlus, Send, Trash2, Users, Heart } from "lucide-react";
+import { UserPlus, Send, Trash2, Users, Heart, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
 
 type Guest = {
@@ -23,7 +23,31 @@ type Guest = {
   createdAt: string;
 };
 
+function CopyLinkButton({ slug }: { slug: string }) {
+  const [copied, setCopied] = useState(false);
 
+  const handleCopy = async () => {
+    const url = `${window.location.origin}/invitation/${slug}`;
+    await navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={handleCopy}
+      className={`h-6 w-6 p-0 transition-colors ${
+        copied
+          ? "text-emerald-600 hover:text-emerald-600"
+          : "text-[#b0a098] hover:text-[#6b5c53]"
+      }`}
+    >
+      {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+    </Button>
+  );
+}
 
 export default function DashboardPage() {
   const [guests, setGuests] = useState<Guest[]>([]);
@@ -83,9 +107,9 @@ export default function DashboardPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ guestId: guest.id }),
       });
-  
+
       const data = await res.json();
-  
+
       if (res.ok) {
         toast.success(`Undangan terkirim ke ${guest.name}!`);
       } else {
@@ -98,7 +122,6 @@ export default function DashboardPage() {
       setBlasting(null);
     }
   };
-
 
   const handleBlastAll = async () => {
     if (!confirm(`Kirim undangan ke semua ${guests.length} tamu?`)) return;
@@ -186,9 +209,12 @@ export default function DashboardPage() {
                     <TableCell className="font-medium text-[#3a2e28]">{guest.name}</TableCell>
                     <TableCell className="text-[#6b5c53]">{guest.phone}</TableCell>
                     <TableCell>
-                      <span className="text-xs text-[#9e8e82] font-mono bg-[#f5f0eb] px-2 py-0.5 rounded">
-                        /invitation/{guest.slug}
-                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs text-[#9e8e82] font-mono bg-[#f5f0eb] px-2 py-0.5 rounded">
+                          /invitation/{guest.slug}
+                        </span>
+                        <CopyLinkButton slug={guest.slug} />
+                      </div>
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex gap-1.5 justify-end">
