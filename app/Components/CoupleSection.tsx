@@ -57,7 +57,7 @@ const DiagonalPhoto = ({
         alt={alt}
         width={600}
         height={800}
-        className="w-auto h-auto max-h-[380px] md:max-h-[460px] object-contain"
+        className="w-auto h-auto max-h-95 md:max-h-115 object-contain"
         style={{ display: "block" }}
       />
       <div
