@@ -29,17 +29,17 @@ const parkingSpots = [
   {
     name: "Ex Amora Cafe",
     note: "Otomatis diarahkan koordinator parkir Kamara",
-    mapsUrl: "https://maps.app.goo.gl/exAmora",
+    mapsUrl: "https://maps.app.goo.gl/QXwX7sDvckPkV6AR7",
   },
   {
     name: "Masjid Agung Sumedang",
     note: "Area parkir luas",
-    mapsUrl: "https://maps.app.goo.gl/masjidAgung",
+    mapsUrl: "https://maps.app.goo.gl/VVG6FqnMqLQpTXH98",
   },
   {
     name: "TAHURA Gunung Kunci",
     note: "Alternatif parkir terdekat",
-    mapsUrl: "https://maps.app.goo.gl/taHura",
+    mapsUrl: "https://maps.app.goo.gl/2Zag4dsLX8DojK4b9",
   },
 ];
 
