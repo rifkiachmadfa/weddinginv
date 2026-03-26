@@ -4,7 +4,7 @@ import { motion, type Variants } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, MapPin, ExternalLink } from "lucide-react";
+import { Calendar, Clock, MapPin, ExternalLink, Car } from "lucide-react";
 
 interface Props {
   data: {
@@ -24,6 +24,24 @@ const stagger: Variants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.15 } },
 };
+
+const parkingSpots = [
+  {
+    name: "Ex Amora Cafe",
+    note: "Otomatis diarahkan koordinator parkir Kamara",
+    mapsUrl: "https://maps.app.goo.gl/exAmora",
+  },
+  {
+    name: "Masjid Agung Sumedang",
+    note: "Area parkir luas",
+    mapsUrl: "https://maps.app.goo.gl/masjidAgung",
+  },
+  {
+    name: "TAHURA Gunung Kunci",
+    note: "Alternatif parkir terdekat",
+    mapsUrl: "https://maps.app.goo.gl/taHura",
+  },
+];
 
 function EventCard({
   type,
@@ -107,6 +125,7 @@ export default function EventSection({ data }: Props) {
         whileInView="visible"
         viewport={{ once: true, amount: 0 }}
       >
+        {/* Header */}
         <motion.div variants={fadeUp} transition={{ duration: 0.7, ease: "easeOut" }} className="text-center mb-14">
           <p className="text-[#3d405b]/40 text-[10px] tracking-[0.6em] uppercase mb-3">
             Rangkaian Acara
@@ -123,6 +142,7 @@ export default function EventSection({ data }: Props) {
           </div>
         </motion.div>
 
+        {/* Event Cards */}
         <div className="grid md:grid-cols-2 gap-6 mb-12">
           <EventCard
             type="Akad Nikah"
@@ -145,7 +165,8 @@ export default function EventSection({ data }: Props) {
           />
         </div>
 
-        <motion.div variants={fadeUp} transition={{ duration: 0.7, ease: "easeOut" }} className="rounded-2xl overflow-hidden border border-[#3d405b]/10 shadow-sm">
+        {/* Map */}
+        <motion.div variants={fadeUp} transition={{ duration: 0.7, ease: "easeOut" }} className="rounded-2xl overflow-hidden border border-[#3d405b]/10 shadow-sm mb-12">
           <iframe
             src={data.googleMapsEmbed}
             width="100%"
@@ -172,6 +193,58 @@ export default function EventSection({ data }: Props) {
               Buka Maps
               <ExternalLink className="w-3 h-3" />
             </Button>
+          </div>
+        </motion.div>
+
+        {/* Parking Section */}
+        <motion.div variants={fadeUp} transition={{ duration: 0.7, ease: "easeOut" }} className="space-y-6">
+          <div className="text-center space-y-2">
+            <div className="flex items-center justify-center gap-2 text-[#3d405b]/40">
+              <Car className="w-4 h-4" />
+              <p className="text-[10px] tracking-[0.5em] uppercase">Rekomendasi Parkir</p>
+            </div>
+            <p className="text-[#3d405b]/40 text-xs">
+              Beberapa pilihan area parkir terdekat dari lokasi acara
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {parkingSpots.map((spot) => (
+              <Card
+                key={spot.name}
+                className="bg-transparent border-[#3d405b]/15 rounded-2xl shadow-none hover:border-[#3d405b]/30 transition-colors duration-200"
+              >
+                <CardContent className="p-6 flex flex-col gap-4 relative">
+                  <div className="absolute top-2 left-2 w-4 h-4 border-t border-l border-[#3d405b]/15" />
+                  <div className="absolute top-2 right-2 w-4 h-4 border-t border-r border-[#3d405b]/15" />
+                  <div className="absolute bottom-2 left-2 w-4 h-4 border-b border-l border-[#3d405b]/15" />
+                  <div className="absolute bottom-2 right-2 w-4 h-4 border-b border-r border-[#3d405b]/15" />
+
+                  <div className="flex justify-center text-[#3d405b]/30">
+                    <Car className="w-6 h-6" />
+                  </div>
+
+                  <div className="text-center space-y-1">
+                    <p className="text-[#3d405b] text-sm font-medium leading-snug">
+                      {spot.name}
+                    </p>
+                    <p className="text-[#3d405b]/45 text-[11px] leading-relaxed">
+                      {spot.note}
+                    </p>
+                  </div>
+
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-[#3d405b]/20 text-[#3d405b]/60 hover:text-[#3d405b] hover:border-[#3d405b]/40 bg-transparent rounded-full text-[10px] tracking-widest gap-1.5 w-full"
+                    onClick={() => window.open(spot.mapsUrl, "_blank")}
+                  >
+                    <MapPin className="w-3 h-3" />
+                    Lihat Lokasi
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </motion.div>
 

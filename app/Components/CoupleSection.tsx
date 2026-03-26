@@ -77,12 +77,14 @@ const PersonCard = ({
   fullName,
   father,
   mother,
+  childTitle,
   title,
   direction,
 }: {
   fullName: string;
   father: string;
   mother: string;
+  childTitle: string; // ← tambah ini
   title: string;
   direction: "left" | "right";
 }) => {
@@ -120,7 +122,7 @@ const PersonCard = ({
 
       <motion.div variants={itemVariants} className="space-y-1">
         <p className="text-[#f4f1de]/50 text-[10px] tracking-[0.4em] uppercase mb-2">
-          Putra/Putri dari
+        {childTitle}
         </p>
         <p className="text-[#f4f1de]/80 text-sm font-light">{father}</p>
         <p className="text-[#f4f1de]/80 text-sm font-light">{mother}</p>
@@ -171,11 +173,12 @@ export default function CoupleSection({ data }: Props) {
 
       {/* Bride — foto kiri, text kanan */}
       <div className="grid grid-cols-1 md:grid-cols-2 mb-2 items-center">
-        <DiagonalPhoto src="/wanita.png" alt="Bride" direction="left" />
+        <DiagonalPhoto src="/ayufullbody.png" alt="Bride" direction="left" />
         <PersonCard
           fullName={data.bride.fullName}
           father={data.bride.father}
           mother={data.bride.mother}
+          childTitle="Putri dari"
           title="The Bride"
           direction="left"
         />
@@ -202,10 +205,11 @@ export default function CoupleSection({ data }: Props) {
           fullName={data.groom.fullName}
           father={data.groom.father}
           mother={data.groom.mother}
+          childTitle="Putra dari"
           title="The Groom"
           direction="right"
         />
-        <DiagonalPhoto src="/pria.png" alt="Groom" direction="right" />
+        <DiagonalPhoto src="/rifkifullbody.png" alt="Groom" direction="right" />
       </div>
 
     </section>

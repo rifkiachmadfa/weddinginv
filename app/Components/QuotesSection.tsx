@@ -211,23 +211,19 @@ export default function QuotesSection() {
 
         <div className="relative z-10 w-full max-w-lg mx-auto flex flex-col items-center">
 
-          {/* Photos — lebih kecil dan terpisah dari card */}
+          {/* Photos — di luar card, tanpa border/shadow card */}
           {showPhotos && (
             <div className="flex items-end justify-center gap-8 mb-8 relative z-20">
 
               {/* Wanita — left, tilted left */}
               <div className="photo-left">
-                <div
-                  className="relative w-20 h-28 md:w-24 md:h-32 rounded-xl overflow-hidden border-2 border-white/80"
-                  style={{ boxShadow: "0 8px 24px rgba(61,64,91,0.18), 0 2px 4px rgba(61,64,91,0.1)" }}
-                >
+                <div className="relative w-20 h-28 md:w-24 md:h-32">
                   <Image
                     src="/wanita.png"
                     alt="Wanita"
                     fill
-                    className="object-cover object-top"
+                    className="object-contain object-top"
                   />
-                  <div className="absolute inset-0 bg-linear-to-t from-[#3d405b]/10 to-transparent" />
                 </div>
               </div>
 
@@ -236,17 +232,13 @@ export default function QuotesSection() {
 
               {/* Pria — right, tilted right */}
               <div className="photo-right">
-                <div
-                  className="relative w-20 h-28 md:w-24 md:h-32 rounded-xl overflow-hidden border-2 border-white/80"
-                  style={{ boxShadow: "0 8px 24px rgba(61,64,91,0.18), 0 2px 4px rgba(61,64,91,0.1)" }}
-                >
+                <div className="relative w-20 h-28 md:w-24 md:h-32">
                   <Image
                     src="/pria.png"
                     alt="Pria"
                     fill
-                    className="object-cover object-top"
+                    className="object-contain object-top"
                   />
-                  <div className="absolute inset-0 bg-linear-to-t from-[#3d405b]/10 to-transparent" />
                 </div>
               </div>
 

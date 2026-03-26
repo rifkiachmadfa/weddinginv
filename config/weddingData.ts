@@ -23,13 +23,13 @@ export const weddingData = {
     akad: {
       day: "Sabtu",
       date: "4 April 2026",
-      time: "09.30 – 10.30 WIB",
+      time: "09.00 – 11.00 WIB",
       venue: "Cafe Kamara",
       address: "Jl. Raden Suyud No.23, Kotakulon, Kec. Sumedang Sel, Kabupaten Sumedang",
     },
     resepsi: {
       day: "Sabtu",
-      date: "14 Juni 2025",
+      date: "4 April 2026",
       time: "11.00 – 14.00 WIB",
       venue: "Cafe Kamara",
       address: "Jl. Raden Suyud No.23, Kotakulon, Kec. Sumedang Sel, Kabupaten Sumedang",

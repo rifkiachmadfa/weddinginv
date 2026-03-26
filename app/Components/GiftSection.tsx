@@ -79,6 +79,14 @@ function BankCard({ account }: { account: { bank: string; accountNumber: string;
 }
 
 export default function GiftSection({ data }: Props) {
+  const [addressCopied, setAddressCopied] = useState(false);
+
+  const handleCopyAddress = async () => {
+    await navigator.clipboard.writeText(data.gift.address);
+    setAddressCopied(true);
+    setTimeout(() => setAddressCopied(false), 2000);
+  };
+
   return (
     <section className="py-24 px-6 bg-[#3d405b] overflow-hidden">
       <motion.div
@@ -112,18 +120,42 @@ export default function GiftSection({ data }: Props) {
         <motion.div variants={fadeUp} transition={{ duration: 0.7, ease: "easeOut" }} className="mb-6">
           <Card className="bg-[#f4f1de]/5 border-[#f4f1de]/10 rounded-2xl shadow-none">
             <CardContent className="p-6">
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-full bg-[#f2cc8f]/10 flex items-center justify-center shrink-0 mt-0.5">
-                  <Gift className="w-4 h-4 text-[#f2cc8f]/70" />
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-start gap-4 flex-1 min-w-0">
+                  <div className="w-8 h-8 rounded-full bg-[#f2cc8f]/10 flex items-center justify-center shrink-0 mt-0.5">
+                    <Gift className="w-4 h-4 text-[#f2cc8f]/70" />
+                  </div>
+                  <div className="flex flex-col gap-1 min-w-0">
+                    <p className="text-[#f2cc8f]/60 text-[10px] tracking-[0.4em] uppercase">
+                      Alamat Pengiriman Kado
+                    </p>
+                    <p className="text-[#f4f1de]/70 text-sm leading-relaxed mt-1">
+                      {data.gift.address}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex flex-col gap-1">
-                  <p className="text-[#f2cc8f]/60 text-[10px] tracking-[0.4em] uppercase">
-                    Alamat Pengiriman Kado
-                  </p>
-                  <p className="text-[#f4f1de]/70 text-sm leading-relaxed mt-1">
-                    {data.gift.address}
-                  </p>
-                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleCopyAddress}
+                  className={`shrink-0 rounded-full border transition-all duration-300 gap-2 text-xs tracking-widest self-center ${
+                    addressCopied
+                      ? "bg-[#f2cc8f] border-[#f2cc8f] text-[#3d405b] hover:bg-[#f2cc8f]"
+                      : "bg-transparent border-[#f4f1de]/20 text-[#f4f1de]/60 hover:bg-[#f4f1de]/10 hover:text-[#f4f1de] hover:border-[#f4f1de]/40"
+                  }`}
+                >
+                  {addressCopied ? (
+                    <>
+                      <Check className="w-3 h-3" />
+                      Tersalin
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3 h-3" />
+                      Salin
+                    </>
+                  )}
+                </Button>
               </div>
             </CardContent>
           </Card>

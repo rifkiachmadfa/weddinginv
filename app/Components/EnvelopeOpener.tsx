@@ -477,6 +477,9 @@ export default function EnvelopeOpener({ guestName, onOpen }: Props) {
           <p className={`hint${phase !== "idle" ? " hidden" : ""}`}>
             Sentuh segel untuk membuka
           </p>
+          <p className={`hint${phase !== "idle" ? " hidden" : ""}`}>
+            undangan terbatas
+          </p>
         </div>
       </div>
     </>
