@@ -18,15 +18,15 @@
 //   globalThis.prismaGlobal = prisma;
 // }
 
-
 import { PrismaClient } from "@/app/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
-const adapter = new PrismaPg({
-  connectionString: process.env.DIRECT_URL!, // ← ganti ke DIRECT_URL
-});
-
-const prismaClientSingleton = () => new PrismaClient({ adapter });
+const prismaClientSingleton = () => {
+  const adapter = new PrismaPg({
+    connectionString: process.env.DATABASE_URL!,
+  });
+  return new PrismaClient({ adapter });
+};
 
 declare const globalThis: {
   prismaGlobal?: ReturnType<typeof prismaClientSingleton>;
